@@ -13,6 +13,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      devTools: !app.isPackaged,
     },
   });
 
@@ -20,7 +21,9 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished

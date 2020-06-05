@@ -1,7 +1,11 @@
 const moment = require('moment');
+const notifier = require('../notifier')('Simple Pomodoro');
 
-const DEFAULT_FLOW_DURATION_MINUTES = 0.03;
-const DEFAULT_BREAK_DURATION_MINUTES = 0.03;
+const AFTER_FLOW_MESSAGE = 'You should now take a break.';
+const AFTER_BREAK_MESSAGE = 'Break time is over. Prepare to enter flow state.';
+
+const DEFAULT_FLOW_DURATION_MINUTES = 25;
+const DEFAULT_BREAK_DURATION_MINUTES = 5;
 const TIMER_MODES = {
   BREAK: 'break',
   FLOW: 'flow',
@@ -30,6 +34,11 @@ const countdownTimer = {
   onStart() {},
   onStop() {},
 
+  notify(mode) {
+    const notificationMessage = mode === TIMER_MODES.BREAK ? AFTER_FLOW_MESSAGE : AFTER_BREAK_MESSAGE;
+    notifier.notify(notificationMessage);
+  },
+
   resetTimer(mode = TIMER_MODES.FLOW) {
     countdownTime = moment((mode === TIMER_MODES.FLOW) ? flowTimerStart : breakTimerStart);
   },
@@ -48,13 +57,14 @@ const countdownTimer = {
   },
 
   tick(callback, mode, interval) {
-    callback(this.getFormattedTime(countdownTime), mode);
+    callback(this.getFormattedTime(countdownTime));
 
     timerId = setTimeout(() => {
       const timeDiffInSeconds = countdownTime.diff(defaultTimerValue, 'seconds');
 
       if (timeDiffInSeconds === 0) {
         this.stop(callback, mode === TIMER_MODES.FLOW ? TIMER_MODES.BREAK : TIMER_MODES.FLOW);
+        this.notify(mode);
         return;
       }
 

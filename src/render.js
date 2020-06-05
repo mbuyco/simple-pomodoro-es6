@@ -2,8 +2,8 @@ const countdownTimer = require('./modules/timer/countdown-timer');
 const { TIMER_MODES } = countdownTimer;
 
 const timerBgColor = {
-  break: '#ff5050',
-  start: '#95e895',
+  break: '#f995a9',
+  start: '#a1d0a1',
 };
 
 // default timer mode
@@ -20,6 +20,7 @@ const setTime = (time) => {
 
 // timer start event binding
 countdownTimer.onStart = (mode) => {
+  document.getElementById('start').disabled = true;
   setBgColor(mode);
 };
 
@@ -27,6 +28,8 @@ countdownTimer.onStart = (mode) => {
 countdownTimer.onStop = (mode) => {
   currentMode = mode;
   document.getElementById('start').innerText = `start ${currentMode}`;
+  document.getElementById('start').disabled = false;
+  document.getElementById('start').className = `button ${currentMode === TIMER_MODES.FLOW ? 'is-success' : 'is-danger'}`;
   setBgColor(currentMode);
 };
 

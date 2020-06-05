@@ -1,7 +1,7 @@
 const moment = require('moment');
 
-const DEFAULT_FLOW_DURATION_MINUTES = 5; 
-const DEFAULT_BREAK_DURATION_MINUTES = 5;
+const DEFAULT_FLOW_DURATION_MINUTES = 0.03;
+const DEFAULT_BREAK_DURATION_MINUTES = 0.03;
 const TIMER_MODES = {
   BREAK: 'break',
   FLOW: 'flow',

@@ -26,6 +26,7 @@ countdownTimer.onStart = (mode) => {
 // timer stop event binding
 countdownTimer.onStop = (mode) => {
   currentMode = mode;
+  document.getElementById('start').innerText = `start ${currentMode}`;
   setBgColor(currentMode);
 };
 
@@ -45,3 +46,4 @@ document.getElementById('stop').onclick = () => {
 
 // initialize timer
 document.getElementById('timer').innerHTML = countdownTimer.getStartTime();
+document.getElementById('start').innerText = `start ${currentMode}`;
